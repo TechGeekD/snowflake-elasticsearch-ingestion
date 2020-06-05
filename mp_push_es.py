@@ -10,17 +10,26 @@ import time
 from multiprocessing import Pool
 
 def push_to_es(offset=0):
+    print('push_to_es')
+
     jsonFromRowData = []
 
     try:
-        limit = 20000000
+        limit = 2000000
 
         start = time.time()
 
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        print('Before Query')
+        print('\nBefore Query')
         print('Current Timestamp: ', timestampStr)
+
+        # try:
+        #     start_date = sys.argv[3]
+        #     end_date = sys.argv[4]
+        # except:
+        #     print('Provide Date Range: start_date & end_date')
+        #     return;
 
         cs.execute(f"""
             WITH top_sound AS (
@@ -59,7 +68,7 @@ def push_to_es(offset=0):
 
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        print('After Query & Before Ingestion')
+        print('\nAfter Query & Before Ingestion')
         print('Current Timestamp : ', timestampStr)
 
         def gen_data():
@@ -78,14 +87,14 @@ def push_to_es(offset=0):
             if not success:
                 print('********************* print_ingest_error **************************')
                 print('A document failed:', Pretty(info).print())
-            else:
-                print('********************* print_ingest_success **************************')
-                print('A document success:', Pretty(info).print())
+            # else:
+                # print('********************* print_ingest_success **************************')
+                # print('A document success:', Pretty(info).print())
 
-                dateTimeObj = datetime.now()
-                timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-                print('After Ingestion success')
-                print('Current Timestamp : ', timestampStr)
+                # dateTimeObj = datetime.now()
+                # timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+                # print('After Ingestion success')
+                # print('Current Timestamp : ', timestampStr)
 
         seconds = time.time() - start
         print("it took for parallel_bulk " + str(seconds) + " seconds.")
@@ -93,8 +102,11 @@ def push_to_es(offset=0):
 
         dateTimeObj = datetime.now()
         timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
-        print('After Ingestion')
+        print('\nAfter Ingestion')
         print('Current Timestamp : ', timestampStr)
+    except Exception as e:
+        print('push_to_es_error')
+        print(e)
     finally:
         pass
         # cs.close()
@@ -102,14 +114,23 @@ def push_to_es(offset=0):
         # ctx.close()
 
 if __name__ == '__main__':
-    chunk_limit = 20000000
+    print('__main__')
+    chunk_limit = 2000000
     data_start = int(sys.argv[1])
     data_end = int(sys.argv[2])
     offser_list_generator = (x for x in range(data_start, data_end, chunk_limit))
     no_of_processes = 20
 
-    with Pool(no_of_processes) as p:
-        p.map(push_to_es, offser_list_generator)
+    try:
+        print('Pool_Start')
+
+        with Pool(no_of_processes) as p:
+            p.map(push_to_es, offser_list_generator)
+
+        print('Pool_End')
+    except Exception as e:
+        print('Pool_Error')
+        print(e)
 
     cs.close()
     ctx.close()
