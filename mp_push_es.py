@@ -16,6 +16,12 @@ def push_to_es(offset=0):
         limit = 20000000
 
         start = time.time()
+
+        dateTimeObj = datetime.now()
+        timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        print('Before Query')
+        print('Current Timestamp: ', timestampStr)
+
         cs.execute(f"""
             WITH top_sound AS (
                 SELECT stp.*, pf.followers
@@ -51,6 +57,11 @@ def push_to_es(offset=0):
         query_seconds = time.time() - start
         print("it took for query " + str(query_seconds) + " seconds.")
 
+        dateTimeObj = datetime.now()
+        timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        print('After Query & Before Ingestion')
+        print('Current Timestamp : ', timestampStr)
+
         def gen_data():
             for row in all_rows:
                 jsonFromRow = json.loads(row[0])
@@ -67,10 +78,23 @@ def push_to_es(offset=0):
             if not success:
                 print('********************* print_ingest_error **************************')
                 print('A document failed:', Pretty(info).print())
+            else:
+                print('********************* print_ingest_success **************************')
+                print('A document success:', Pretty(info).print())
+
+                dateTimeObj = datetime.now()
+                timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+                print('After Ingestion success')
+                print('Current Timestamp : ', timestampStr)
 
         seconds = time.time() - start
         print("it took for parallel_bulk " + str(seconds) + " seconds.")
         print("total time "+ str(query_seconds + seconds ))
+
+        dateTimeObj = datetime.now()
+        timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+        print('After Ingestion')
+        print('Current Timestamp : ', timestampStr)
     finally:
         pass
         # cs.close()
