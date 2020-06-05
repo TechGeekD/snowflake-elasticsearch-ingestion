@@ -1,0 +1,181 @@
+failed 61000000 - 60969874 = 30126
+
+31000001
+12:15:22
+it took for query 16.76349115371704 seconds.
+it took for firehose_bulk 322.807984828949 seconds.
+total time for 31000001 is 339.571475982666
+
+32000001
+12:21:26
+it took for query 18.36316967010498 seconds.
+it took for firehose_bulk 329.81891655921936 seconds.
+total time for 32000001 is 348.18208622932434
+
+33000001
+12:27:39
+it took for query 16.943697929382324 seconds.
+it took for firehose_bulk 318.91397881507874 seconds.
+total time for 33000001 is 335.85767674446106
+
+34000001
+12:33:39
+it took for query 17.376301527023315 seconds.
+it took for firehose_bulk 328.6029670238495 seconds.
+total time for 34000001 is 345.9792685508728
+
+35000001
+12:39:49
+it took for query 19.380852699279785 seconds.
+it took for firehose_bulk 319.78352665901184 seconds.
+total time for 35000001 is 339.1643793582916
+
+36000001
+12:45:56
+it took for query 17.171069860458374 seconds.
+it took for firehose_bulk 347.96164298057556 seconds.
+total time for 36000001 is 365.13271284103394
+
+37000001
+12:52:25
+it took for query 30.572017431259155 seconds.
+it took for firehose_bulk 320.95790934562683 seconds.
+total time for 37000001 is 351.529926776886
+
+38000001
+12:58:41
+it took for query 29.677428722381592 seconds.
+it took for firehose_bulk 347.2071042060852 seconds.
+total time for 38000001 is 376.8845329284668
+
+39000001
+13:05:22
+it took for query 30.826582431793213 seconds.
+it took for firehose_bulk 330.8084580898285 seconds.
+total time for 39000001 is 361.6350405216217
+
+40000001
+13:11:47
+it took for query 29.855448484420776 seconds.
+it took for firehose_bulk 313.9206004142761 seconds.
+total time for 40000001 is 343.7760488986969
+
+41000001
+13:17:56
+it took for query 30.560506582260132 seconds.
+it took for firehose_bulk 336.70842242240906 seconds.
+total time for 41000001 is 367.2689290046692
+
+42000001
+13:24:27
+it took for query 31.781224966049194 seconds.
+it took for firehose_bulk 328.99854469299316 seconds.
+total time for 42000001 is 360.77976965904236
+
+43000001
+13:30:53
+it took for query 31.822016716003418 seconds.
+it took for firehose_bulk 328.34857273101807 seconds.
+total time for 43000001 is 360.1705894470215
+
+44000001
+13:37:18
+it took for query 31.31375741958618 seconds.
+it took for firehose_bulk 327.8676564693451 seconds.
+total time for 44000001 is 359.1814138889313
+
+45000001
+13:43:40
+it took for query 30.102232217788696 seconds.
+it took for firehose_bulk 332.07878851890564 seconds.
+total time for 45000001 is 362.18102073669434
+
+46000001
+13:50:06
+it took for query 33.820157527923584 seconds.
+it took for firehose_bulk 332.042941570282 seconds.
+total time for 46000001 is 365.86309909820557
+
+47000001
+13:56:36
+it took for query 31.877957344055176 seconds.
+it took for firehose_bulk 346.23091745376587 seconds.
+total time for 47000001 is 378.10887479782104
+
+48000001
+14:03:19
+it took for query 31.32066035270691 seconds.
+it took for firehose_bulk 318.60025930404663 seconds.
+total time for 48000001 is 349.92091965675354
+
+49000001
+14:09:32
+it took for query 41.297908306121826 seconds.
+it took for firehose_bulk 331.4557616710663 seconds.
+total time for 49000001 is 372.7536699771881
+
+50000001
+14:16:18
+it took for query 31.442901611328125 seconds.
+it took for firehose_bulk 334.05867099761963 seconds.
+total time for 50000001 is 365.50157260894775
+
+51000001
+14:22:47
+it took for query 31.60519504547119 seconds.
+it took for firehose_bulk 319.2140848636627 seconds.
+total time for 51000001 is 350.8192799091339
+
+52000001
+14:29:02
+it took for query 32.09315729141235 seconds.
+it took for firehose_bulk 334.68119406700134 seconds.
+total time for 52000001 is 366.7743513584137
+
+53000001
+14:35:33
+it took for query 31.944881677627563 seconds.
+it took for firehose_bulk 319.67816066741943 seconds.
+total time for 53000001 is 351.623042345047
+
+54000001
+14:41:48
+it took for query 32.68821907043457 seconds.
+it took for firehose_bulk 319.575306892395 seconds.
+total time for 54000001 is 352.2635259628296
+
+55000001
+14:48:04
+it took for query 33.08964824676514 seconds.
+it took for firehose_bulk 350.99924182891846 seconds.
+total time for 55000001 is 384.0888900756836
+
+56000001
+14:54:52
+it took for query 32.54432678222656 seconds.
+it took for firehose_bulk 355.5396320819855 seconds.
+total time for 56000001 is 388.08395886421204
+
+57000001
+15:01:43
+it took for query 32.645132541656494 seconds.
+it took for firehose_bulk 358.2680661678314 seconds.
+total time for 57000001 is 390.9131987094879
+
+58000001
+15:08:38
+it took for query 32.097131967544556 seconds.
+it took for firehose_bulk 341.0529661178589 seconds.
+total time for 58000001 is 373.15009808540344
+
+59000001
+15:15:14
+it took for query 32.37888741493225 seconds.
+it took for firehose_bulk 345.1756091117859 seconds.
+total time for 59000001 is 377.55449652671814
+
+60000001
+15:21:55
+it took for query 32.33442044258118 seconds.
+it took for firehose_bulk 341.88512110710144 seconds.
+total time for 60000001 is 374.2195415496826

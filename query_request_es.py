@@ -53,57 +53,71 @@ print(f'request_cache: {request_cache}')
 # }
 
 
-# body = {
-#         "size": size,
-#         "query": {
-#             "match_all": {}
-#         },
-#     }
-
 body = {
-    "query": {
-        "bool": {
-            "must": {
-                "term": {
-                    "feed_id": [1, 2, 3]
-                }
-            }
-        }
+        "size": size,
+        "query": {
+            "match_all": {}
+        },
     }
-}
 
 # body = {
-#     "aggs": {
-#         "by_isrc": {
-#             "terms": {
-#                     "field": "isrc.keyword"
-#             },
-#             "aggs": {
-#                 "sum_streams_all_time": {
-#                     "sum": {
-#                         "field": "streams_all_time"
-#                     }
+#     "query": {
+#         "bool": {
+#             "must": {
+#                 "term": {
+#                     "feed_id": [1, 2, 3]
 #                 }
 #             }
-#         },
+#         }
 #     }
 # }
-            # "aggs": {
-            #     "isrc_data": {
-            #         "top_hits": {
-            #         }
-            #     }
-            # }
-                        # "sort": [
-                        #     {
-                        #         "duration": {
-                        #             "order": "asc"
-                        #         }
-                        #     }
-                        # ],
-                        # "size": 10,
-                        # "from": 0
 
+
+# body={
+#   "aggs": {
+#     "label_ids": {
+#       "filter": {
+#         "bool": {
+#           "must": [
+#             {
+#               "terms": {
+#                 "feed_id": [
+#                   1,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38
+#                 ]
+#               }
+#             },
+#             {
+#               "term": {
+#                 "label_id": 27938
+#               }
+#             },
+#             {
+#               "terms": {
+#                 "store_id": [
+#                   1,4,187,286,348,496,708
+#                 ]
+#               }
+#             }
+#           ]
+#         }
+#       },
+#       "aggs": {
+#         "by_isrc": {
+#           "terms": {
+#             "field": "isrc.keyword"
+#           },
+#           "aggs": {
+#             "sum_streams_7_days": {
+#               "sum": {
+#                 "field": "streams_7_days"
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
 
 print(ES_INDEX, Pretty(body).print())
 # res = es.indices.clear_cache(index=ES_INDEX);
@@ -126,7 +140,7 @@ res = es.search(
         index=ES_INDEX,
         request_cache=request_cache,
         body=body,
-        size=0
+        # size=0
     )
 
 # scrollId = res['_scroll_id']
@@ -147,6 +161,7 @@ print(Pretty(res).print())
 
 print(f'request_cache: {request_cache}')
 
-# except ElasticsearchException:
+# except ElasticsearchException as e:
 #     print('********************* print_query_error **************************')
 #     print(f'{ES_INDEX} not found')
+#     print(e)

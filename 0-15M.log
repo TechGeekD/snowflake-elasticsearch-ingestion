@@ -1,0 +1,113 @@
+failed 16000000 - 15980618 = 19382
+
+1
+04:26:45
+it took for query 16.22607660293579 seconds.
+it took for firehose_bulk 315.46248602867126 seconds.
+total time for 1 is 331.68856263160706
+next batch starts
+
+1000001
+04:32:41
+it took for query 16.841273546218872 seconds.
+it took for firehose_bulk 308.53942942619324 seconds.
+total time for 1000001 is 325.3807029724121
+next batch starts
+
+2000001
+04:38:29
+it took for query 16.35610318183899 seconds.
+it took for firehose_bulk 315.5902826786041 seconds.
+total time for 2000001 is 331.9463858604431
+next batch starts
+
+3000001
+04:44:25
+it took for query 16.454559326171875 seconds.
+it took for firehose_bulk 304.12233996391296 seconds.
+total time for 3000001 is 320.57689929008484
+next batch starts
+
+4000001
+04:50:09
+it took for query 20.190951108932495 seconds.
+it took for firehose_bulk 302.2278025150299 seconds.
+total time for 4000001 is 322.4187536239624
+next batch starts
+
+5000001
+04:55:56
+it took for query 16.398666381835938 seconds.
+it took for firehose_bulk 313.02440452575684 seconds.
+total time for 5000001 is 329.4230709075928
+next batch starts
+
+6000001
+05:01:49
+it took for query 16.995872497558594 seconds.
+it took for firehose_bulk 300.37377285957336 seconds.
+total time for 6000001 is 317.36964535713196
+next batch starts
+
+7000001
+05:07:30
+it took for query 16.269404649734497 seconds.
+it took for firehose_bulk 305.16362380981445 seconds.
+total time for 7000001 is 321.43302845954895
+next batch starts
+
+8000001
+05:13:14
+it took for query 16.98934817314148 seconds.
+it took for firehose_bulk 316.5567698478699 seconds.
+total time for 8000001 is 333.54611802101135
+next batch starts
+
+9000001
+05:19:11
+it took for query 16.2313392162323 seconds.
+it took for firehose_bulk 302.9364266395569 seconds.
+total time for 9000001 is 319.1677658557892
+next batch starts
+
+10000001
+05:24:54
+it took for query 15.951422929763794 seconds.
+it took for firehose_bulk 302.1914646625519 seconds.
+total time for 10000001 is 318.1428875923157
+next batch starts
+
+11000001
+05:30:36
+it took for query 18.85486650466919 seconds.
+it took for firehose_bulk 300.8882112503052 seconds.
+total time for 11000001 is 319.74307775497437
+next batch starts
+
+12000001
+05:36:20
+it took for query 17.349108934402466 seconds.
+it took for firehose_bulk 315.43470287323 seconds.
+total time for 12000001 is 332.78381180763245
+next batch starts
+
+13000001
+05:42:17
+it took for query 16.52520751953125 seconds.
+it took for firehose_bulk 302.5240969657898 seconds.
+total time for 13000001 is 319.04930448532104
+next batch starts
+
+14000001
+05:47:59
+it took for query 17.660701513290405 seconds.
+it took for firehose_bulk 302.09286189079285 seconds.
+total time for 14000001 is 319.75356340408325
+next batch starts
+
+15000001
+05:53:42
+it took for query 16.9576153755188 seconds.
+it took for firehose_bulk 327.18158292770386 seconds.
+total time for 15000001 is 344.13919830322266
+next batch starts
