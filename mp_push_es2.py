@@ -1,5 +1,6 @@
 import sys
 import json
+import calendar
 from datetime import datetime
 from elastic import es, ElasticsearchException
 from snowflake_client import ctx, cs
@@ -11,8 +12,8 @@ from multiprocessing import Pool
 
 print('elasticsearch-ingest:')
 try:
-    start_date = sys.argv[3]
-    end_date = sys.argv[4]
+    start_dateStr = sys.argv[3]
+    end_dateStr = sys.argv[4]
 except:
     print("Provide Date Range: start_date & end_date")
 
@@ -40,7 +41,7 @@ def push_to_es(offset=0):
                 SELECT stp.*, pf.followers
                 FROM STREAMS_BY_TRACK_PLAYLIST_COUNTRY_FEED_DAILY AS stp
                 LEFT JOIN MAPPINGS_DIM_PLAYLIST_TO_FOLLOWERS AS pf USING(stp.playlist_id)
-                WHERE stp.DOWNLOAD_ACTIVITY_DATE between '{start_date}' and '{end_date}'
+                WHERE stp.DOWNLOAD_ACTIVITY_DATE between '{start_dateStr}' and '{end_dateStr}'
                 LIMIT {limit}
                 OFFSET {offset}
             )
@@ -119,57 +120,73 @@ def push_to_es(offset=0):
         print(err)
 
 
-def delete_index_to_be_ingested(start_date, end_date):
+def delete_index_to_be_ingested(start_dateTimeObj, end_dateTimeObj):
     print(f"DELETE_INDEX_TO_BE_INGESTED_STARTED")
 
-    if(end_date < start_date):
-        print(f"\nEND_DATE: '{end_date}' should be >= START_DATE: '{start_date}'\n")
+    if(end_dateTimeObj < start_dateTimeObj):
+        print(f"\nEND_DATE: '{end_dateTimeObj}' should be >= START_DATE: '{start_dateTimeObj}'\n")
         sys.exit()
 
-    start_month = start_date.month
-    start_year = start_date.year
+    idx_start_month = start_dateTimeObj.month
+    idx_start_year = start_dateTimeObj.year
 
-    end_month = end_date.month
-    end_year = end_date.year
+    idx_end_month = end_dateTimeObj.month
+    idx_end_year = end_dateTimeObj.year
+
+    last_date_of_month = calendar.monthrange(idx_end_year, idx_end_month)[1]
+
+    start_dateStr = datetime(
+        idx_start_year,
+        idx_start_month,
+        1
+    ).strftime("%Y-%m-%d")
+
+    end_dateStr = datetime(
+        idx_end_year,
+        idx_end_month,
+        last_date_of_month
+    ).strftime("%Y-%m-%d")
 
     while True:
-        index_date = f'{start_year}-{start_month}'
+        index_date = f'{idx_start_year}-{idx_start_month}'
         index_name = f'{ES_INDEX}-{index_date}'
-        print(f"Index to delete: {index_name}")
         try:
-            es.indices.delete(index=index_name, ignore_unavailable=True)
+            res = es.indices.delete(index=index_name, ignore_unavailable=True)
+            print(res, f"\tDeleted Index: {index_name}")
         except Exception as error:
             print("DELETE_INDEXES_Exception")
             print(error)
 
-        if(start_month == end_month and start_year == end_year):
+        if(idx_start_month == idx_end_month and idx_start_year == idx_end_year):
             print("break")
             break
 
-        start_month += 1
-        if((start_month % 13) == 0):
-            start_year += 1
-            start_month = 1
+        idx_start_month += 1
+        if((idx_start_month % 13) == 0):
+            idx_start_year += 1
+            idx_start_month = 1
 
     print(f"DELETE_INDEX_TO_BE_INGESTED_ENDED")
 
 if __name__ == '__main__':
     full_start = time.time()
-    print(f"Start full run {datetime.now()}")
+    dateTimeObj = datetime.now()
+    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    print(f"Start full run {timestampStr}")
 
     delete_index_to_be_ingested(
-        datetime.strptime(start_date, "%Y-%m-%d"),
-        datetime.strptime(end_date, "%Y-%m-%d")
+        datetime.strptime(start_dateStr, "%Y-%m-%d"),
+        datetime.strptime(end_dateStr, "%Y-%m-%d")
     )
 
     cs.execute(f"""
         SELECT COUNT(*)
         FROM STREAMS_BY_TRACK_PLAYLIST_COUNTRY_FEED_DAILY AS stp
-        WHERE stp.DOWNLOAD_ACTIVITY_DATE BETWEEN '{start_date}' AND '{end_date}'
+        WHERE stp.DOWNLOAD_ACTIVITY_DATE BETWEEN '{start_dateStr}' AND '{end_dateStr}'
     """)
 
     data_count = cs.fetchone()[0]
-    print('Count document:', Pretty(data_count).print())
+    print('Total document count :', data_count)
 
     try:
         data_start = int(sys.argv[1])
@@ -181,7 +198,6 @@ if __name__ == '__main__':
     offser_list_generator = (x for x in range(data_start, data_end, chunk_limit))
     no_of_processes = 20
 
-    print(f'TOTAL_INGEST_COUNT: {data_end}')
     try:
         print(f'POOL_START_{data_start}_{data_end}_{chunk_limit}')
 
