@@ -152,9 +152,24 @@ def delete_index_to_be_ingested(start_dateTimeObj, end_dateTimeObj):
         index_name = f'{ES_INDEX}-{index_date}'
         try:
             res = es.indices.delete(index=index_name, ignore_unavailable=True)
-            print(res, f"\tDeleted Index: {index_name}")
+            print(res, f"\tDeletion of index : {index_name}")
         except Exception as error:
             print("DELETE_INDEXES_Exception")
+            print(error)
+
+        try:
+            res = es.indices.create(
+                index=index_name,
+                body={
+                    'settings': {
+                        'number_of_shards': 5,
+                        'number_of_replicas': 0,
+                        'refresh_interval': '-1'
+                    },
+                })
+            print(res, f"\creation of index : {index_name}")
+        except Exception as error:
+            print("CREATE_INDEXES_Exception")
             print(error)
 
         if(idx_start_month == idx_end_month and idx_start_year == idx_end_year):
@@ -205,6 +220,22 @@ if __name__ == '__main__':
             p.map(push_to_es, offser_list_generator)
 
         print(f'POOL_END_{data_start}_{data_end}_{chunk_limit}')
+
+        index_name = f'{ES_INDEX}-*'
+        try:
+            res = es.indices.put_settings(
+                index=index_name,
+                body={
+                'index': {
+                    'number_of_replicas': 1,
+                    'refresh_interval': None
+                },
+            })
+            print(res, f"\nreset index for query : {index_name}")
+        except Exception as error:
+            print("RESET_INDEXES_Exception")
+            print(error)
+
     except Exception as error:
         print('\nPOOL_Exception')
         print(error)
@@ -212,4 +243,6 @@ if __name__ == '__main__':
     cs.close()
     ctx.close()
     full_seconds = time.time() - full_start
+    timestampStr = dateTimeObj.strftime("%d-%b-%Y (%H:%M:%S.%f)")
+    print(f"Start full run {timestampStr}")
     print(f"\nTime for full run {str(full_seconds)} seconds.")
