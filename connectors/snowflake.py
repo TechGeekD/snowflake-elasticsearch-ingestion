@@ -1,18 +1,20 @@
-import os
 import snowflake.connector
-from pkey import private_key
+
+from utils.pkey import PRIVATE_KEY
 from constants import SNOWFLAKE_USER_NAME, SNOWFLAKE_ACCOUNT, \
                       SNOWFLAKE_DATABASE, SNOWFLAKE_SCHEMA, \
-                      SNOWFLAKE_WAREHOUSE, SNOWFLAKE_ROLE
+                      SNOWFLAKE_WAREHOUSE, SNOWFLAKE_ROLE, \
+                      SNOWFLAKE_PASSWORD
 
-ctx = snowflake.connector.connect(
+snowflake_ctx = snowflake.connector.connect(
         user=SNOWFLAKE_USER_NAME,
         account=SNOWFLAKE_ACCOUNT,
-        private_key=private_key,
+        password=SNOWFLAKE_PASSWORD,
+        private_key=PRIVATE_KEY,
         database=SNOWFLAKE_DATABASE,
         schema=SNOWFLAKE_SCHEMA,
         warehouse=SNOWFLAKE_WAREHOUSE,
         role=SNOWFLAKE_ROLE
       )
 
-cs = ctx.cursor()
+snowflake_cursor = snowflake_ctx.cursor()

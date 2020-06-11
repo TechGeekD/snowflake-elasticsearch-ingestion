@@ -1,4 +1,6 @@
 /env.sh
 /env
-/__pycache__
-*.p8
+.env
+**/__pycache__
+**.p8
+.bkp/*
