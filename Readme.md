@@ -1,5 +1,6 @@
 
 # Snowflake -> ElastiSearch Ingestion
+Ingests data queried from snowflake to elasticsearch. It will ingest one month of data into index of same month at a time. After one month index is ingested it will create new index for next month & start ingesting that
 
 Create python virtual environment.
 
@@ -25,23 +26,22 @@ Update env values in env.sh then:
 source env.sh
 ```
 
-Run any `*_es` script:
+Install requirements:
 
 ```shell
-python push_es.py
-python request_es.py
-python query_request_es.py
-python delete_es_idx.py
+python -m pip install -r requirements.txt
 ```
 
-
-To run multiple python script parallelly.
+Run script:
 
 ```shell
-sh run.sh
+python index.py
+```
+OR
+```shell
+nohup venv/bin/python -u index.py > no_log.log &
 ```
 
-Update `run.sh` as per need.
 
 ## P.S. Genereate public-private key & add public key to Snowflake
 ## Refer: [Key Pair Authentication](https://docs.snowflake.net/manuals/user-guide/snowsql-start.html#using-key-pair-authentication)

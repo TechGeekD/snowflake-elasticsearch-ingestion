@@ -100,12 +100,34 @@ def push_to_es(offset_gen):
     except Exception as error:
         Logger(f'{offset}: PUSH_TO_ES').log_exception(error)
 
+def recreate_index(index_name):
+    Logger(f'START: recreate_index: {index_name}').log_info()
+    try:
+        res = elasticsearch_client.indices.delete(index=index_name, ignore_unavailable=True)
+        Logger(f'\t{res} Deletion of index : {index_name}').log_info()
+    except Exception as error:
+        Logger('DELETE_INDEXES').log_exception(error)
+
+    try:
+        res = elasticsearch_client.indices.create(
+            index=index_name,
+            body={
+                'settings': {
+                    'number_of_shards': 5,
+                    'number_of_replicas': 0,
+                    'refresh_interval': '-1',
+                    'codec': 'best_compression',
+                }
+            })
+        Logger(f'\t{res} Creation of index : {index_name}').log_info()
+    except Exception as error:
+        Logger('CREATE_INDEXES').log_exception(error)
 
 def prepare_index_to_be_ingested(start_dateTimeObj, end_dateTimeObj):
     Logger('PREPARE_INDEX_TO_BE_INGESTED_START').log_info()
 
     if(end_dateTimeObj < start_dateTimeObj):
-        Logger(f'END_DATE: '{end_dateTimeObj}' should be >= START_DATE: '{start_dateTimeObj}'').log_info()
+        Logger(f'END_DATE: {end_dateTimeObj} should be >= START_DATE: {start_dateTimeObj}').log_info()
         sys.exit()
 
     idx_start_month = start_dateTimeObj.month
@@ -114,52 +136,10 @@ def prepare_index_to_be_ingested(start_dateTimeObj, end_dateTimeObj):
     idx_end_month = end_dateTimeObj.month
     idx_end_year = end_dateTimeObj.year
 
-    last_date_of_month = calendar.monthrange(idx_end_year, idx_end_month)[1]
+    index_date = f'{idx_start_year}-{idx_start_month}'
+    index_name = f'{ES_INDEX}-{index_date}'
 
-    start_dateStr = datetime(
-        idx_start_year,
-        idx_start_month,
-        1
-    ).strftime('%Y-%m-%d')
-
-    end_dateStr = datetime(
-        idx_end_year,
-        idx_end_month,
-        last_date_of_month
-    ).strftime('%Y-%m-%d')
-
-    while True:
-        index_date = f'{idx_start_year}-{idx_start_month}'
-        index_name = f'{ES_INDEX}-{index_date}'
-        try:
-            res = elasticsearch_client.indices.delete(index=index_name, ignore_unavailable=True)
-            Logger(f'\t{res} Deletion of index : {index_name}').log_info()
-        except Exception as error:
-            Logger('DELETE_INDEXES').log_exception(error)
-
-        try:
-            res = elasticsearch_client.indices.create(
-                index=index_name,
-                body={
-                    'settings': {
-                        'number_of_shards': 5,
-                        'number_of_replicas': 0,
-                        'refresh_interval': '-1',
-                        'codec': 'best_compression',
-                    }
-                })
-            Logger(f'\t{res} Creation of index : {index_name}').log_info()
-        except Exception as error:
-            Logger('CREATE_INDEXES').log_exception(error)
-
-        if(idx_start_month == idx_end_month and idx_start_year == idx_end_year):
-            break
-
-        # +1 till 12 month then +1 year & reset month to 1
-        idx_start_month += 1
-        if((idx_start_month % 13) == 0):
-            idx_start_year += 1
-            idx_start_month = 1
+    recreate_index(index_name)
 
     Logger('PREPARE_INDEX_TO_BE_INGESTED_END').log_info()
 
